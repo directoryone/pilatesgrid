@@ -13,9 +13,9 @@
     "update": "bash update.sh"
   },
   "dependencies": {
-    "@directoryone/app": "^1.0.814",
-    "@directoryone/core": "^1.0.814",
-    "@directoryone/ui": "^1.0.814",
+    "@directoryone/app": "^1.0.815",
+    "@directoryone/core": "^1.0.815",
+    "@directoryone/ui": "^1.0.815",
     "@opentelemetry/api": "^1.9.1",
     "@sentry/nextjs": "^10.56.0",
     "@supabase/ssr": "^0.6.1",
@@ -29,10 +29,10 @@
   "devDependencies": {
     "@tailwindcss/postcss": "^4.0.0",
     "@tailwindcss/typography": "^0.5.16",
+    "@types/leaflet": "^1.9.21",
     "@types/node": "^20.0.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
-    "@types/leaflet": "^1.9.21",
     "@types/slug": "^5.0.9",
     "drizzle-kit": "0.31.10",
     "postcss": "^8.5.0",
