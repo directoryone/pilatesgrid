@@ -1,0 +1,43 @@
+{
+  "name": "@directoryone/pilatesgrid",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --port 3001",
+    "setup": "npx tsx scripts/setup.ts",
+    "prebuild": "npx drizzle-kit migrate && (npx tsx scripts/post-update.ts \"$(node -e \"console.log(require('@directoryone/core/package.json').version)\")\" || echo \"post-update warning: continuing\")",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "type-check": "tsc --noEmit",
+    "update": "bash update.sh"
+  },
+  "dependencies": {
+    "@directoryone/app": "^1.0.814",
+    "@directoryone/core": "^1.0.814",
+    "@directoryone/ui": "^1.0.814",
+    "@opentelemetry/api": "^1.9.1",
+    "@sentry/nextjs": "^10.56.0",
+    "@supabase/ssr": "^0.6.1",
+    "@supabase/supabase-js": "^2.98.0",
+    "drizzle-orm": "0.45.2",
+    "lucide-react": "^0.469.0",
+    "next": "15.5.15",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.0.0",
+    "@tailwindcss/typography": "^0.5.16",
+    "@types/node": "^20.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@types/leaflet": "^1.9.21",
+    "@types/slug": "^5.0.9",
+    "drizzle-kit": "0.31.10",
+    "postcss": "^8.5.0",
+    "tailwindcss": "^4.0.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0"
+  }
+}

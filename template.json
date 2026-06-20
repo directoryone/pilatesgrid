@@ -1,0 +1,107 @@
+{
+  "directoryConfig": {
+    "name": "Pilates Directory",
+    "tagline": "Find the Best Pilates Studios Near You",
+    "listingNounSingular": "Studio",
+    "listingNounPlural": "Studios",
+    "requireApproval": true,
+    "reviewsEnabled": true,
+    "maxListingPhotos": 15,
+    "maxListingsPerUser": 3,
+    "locationRequired": true,
+    "emailConfig": {
+      "senderName": "Pilates Directory",
+      "senderEmail": "noreply@your-domain.com"
+    },
+    "heroLayout": "cover",
+    "cardDisplayFields": ["tagline", "location", "priceRange", "rating"],
+    "jobsBoardEnabled": true,
+    "eventsBoardEnabled": true,
+    "caseStudiesEnabled": false,
+    "savedListingsEnabled": false,
+    "caseStudiesRequireApproval": false,
+    "caseStudiesPath": "case-studies",
+    "claimFeeEnabled": false,
+    "submissionsEnabled": true,
+    "channelsEnabled": false,
+    "listingTypesEnabled": false,
+    "neighborhoodsEnabled": false,
+    "serviceFocusEnabled": false,
+    "industriesEnabled": true,
+    "toolsEnabled": false,
+    "lodgingsEnabled": false,
+    "citiesPageEnabled": false,
+    "categoryUrlPrefix": null,
+    "aiScanEnabled": false,
+    "aiBannerPickEnabled": false,
+    "aiProvider": null,
+    "aiApiKeyEncrypted": null,
+    "bulkImportEnabled": false,
+    "indexNowKey": null,
+    "locale": "en-US",
+    "platformVersion": "1.0.0"
+  },
+  "categories": [
+    { "name": "Mat Pilates", "slug": "mat-pilates", "icon": "🧘", "sortOrder": 0 },
+    { "name": "Reformer Pilates", "slug": "reformer-pilates", "icon": "💪", "sortOrder": 1 },
+    { "name": "Clinical Pilates", "slug": "clinical-pilates", "icon": "🏥", "sortOrder": 2 },
+    { "name": "Prenatal Pilates", "slug": "prenatal-pilates", "icon": "🤰", "sortOrder": 3 },
+    { "name": "Private Sessions", "slug": "private-sessions", "icon": "👤", "sortOrder": 4 },
+    { "name": "Group Classes", "slug": "group-classes", "icon": "👥", "sortOrder": 5 },
+    { "name": "Online Classes", "slug": "online-classes", "icon": "💻", "sortOrder": 6 }
+  ],
+  "fieldDefinitions": [
+    {
+      "fieldKey": "class_types",
+      "label": "Class Types",
+      "fieldType": "multi_select",
+      "options": ["Mat", "Reformer", "Tower", "Cadillac", "Chair", "Barrel"],
+      "showInCard": true,
+      "showInFilter": true,
+      "displayLocation": "overview",
+      "sortOrder": 0
+    },
+    {
+      "fieldKey": "experience_level",
+      "label": "Experience Levels",
+      "fieldType": "multi_select",
+      "options": ["Beginner", "Intermediate", "Advanced", "All Levels"],
+      "showInFilter": true,
+      "displayLocation": "overview",
+      "sortOrder": 1
+    },
+    {
+      "fieldKey": "has_reformer",
+      "label": "Has Reformer Equipment",
+      "fieldType": "boolean",
+      "showInCard": true,
+      "showInFilter": true,
+      "displayLocation": "sidebar",
+      "sortOrder": 2
+    },
+    {
+      "fieldKey": "class_size",
+      "label": "Max Class Size",
+      "fieldType": "number",
+      "validationRules": { "min": 1, "max": 100 },
+      "showInCard": true,
+      "displayLocation": "sidebar",
+      "sortOrder": 3
+    }
+  ],
+  "certifications": [
+    { "name": "STOTT Pilates", "slug": "stott-pilates", "icon": "🏅", "sortOrder": 0 },
+    { "name": "Balanced Body", "slug": "balanced-body", "icon": "⚖️", "sortOrder": 1 },
+    { "name": "Polestar Pilates", "slug": "polestar-pilates", "icon": "⭐", "sortOrder": 2 },
+    { "name": "BASI Pilates", "slug": "basi-pilates", "icon": "🎖️", "sortOrder": 3 },
+    { "name": "Peak Pilates", "slug": "peak-pilates", "icon": "🏔️", "sortOrder": 4 },
+    { "name": "Power Pilates", "slug": "power-pilates", "icon": "💪", "sortOrder": 5 }
+  ],
+  "reviewCriteria": [
+    { "name": "Instruction Quality", "description": "Quality and expertise of instructors", "weight": "1.5", "maxScore": 5, "sortOrder": 0 },
+    { "name": "Facility", "description": "Cleanliness and quality of the studio", "weight": "1", "maxScore": 5, "sortOrder": 1 },
+    { "name": "Equipment", "description": "Quality and maintenance of equipment", "weight": "1", "maxScore": 5, "sortOrder": 2 },
+    { "name": "Value", "description": "Value for the price", "weight": "1", "maxScore": 5, "sortOrder": 3 },
+    { "name": "Atmosphere", "description": "Studio atmosphere and vibe", "weight": "0.5", "maxScore": 5, "sortOrder": 4 }
+  ]
+}

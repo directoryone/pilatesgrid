@@ -1,0 +1,128 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+/* The @directoryone/{app,ui} packages now ship pre-built JS in dist/ and are no
+   longer in transpilePackages, so their class names are not in Next's module
+   graph. Tailwind ignores node_modules by default — explicitly source the
+   built packages so their utility classes are emitted. */
+@source "../../node_modules/@directoryone/app/dist";
+@source "../../node_modules/@directoryone/ui/dist";
+
+@theme {
+  --color-brand-50: #eff6ff;
+  --color-brand-100: #dbeafe;
+  --color-brand-200: #bfdbfe;
+  --color-brand-300: #93c5fd;
+  --color-brand-400: #60a5fa;
+  --color-brand-500: #3b82f6;
+  --color-brand-600: #2563eb;
+  --color-brand-700: #1d4ed8;
+
+  --color-accent-50: #faf5ff;
+  --color-accent-100: #f3e8ff;
+  --color-accent-200: #e9d5ff;
+  --color-accent-300: #d8b4fe;
+  --color-accent-400: #c084fc;
+  --color-accent-500: #a855f7;
+  --color-accent-600: #9333ea;
+  --color-accent-700: #7e22ce;
+
+  --color-background: #ffffff;
+  --color-surface: #ffffff;
+  --color-surface-muted: #f9fafb;
+  --color-card-bg: #ffffff;
+  --color-card-text: #111827;
+  --color-border: #e5e7eb;
+
+  --color-header-bg: #ffffff;
+  --color-header-text: #4b5563;
+  --color-footer-bg: #f9fafb;
+  --color-footer-text: #6b7280;
+
+  /* Text colors */
+  --color-foreground: #111827;
+  --color-body-text: #4b5563;
+  --color-muted-text: #6b7280;
+
+  /* Status colors */
+  --color-success-bg: #dcfce7;
+  --color-success-border: #bbf7d0;
+  --color-success-text: #166534;
+  --color-warning-bg: #fef9c3;
+  --color-warning-border: #fde68a;
+  --color-warning-text: #854d0e;
+  --color-error-bg: #fee2e2;
+  --color-error-border: #fecaca;
+  --color-error-text: #991b1b;
+  --color-info-bg: #dbeafe;
+  --color-info-border: #bfdbfe;
+  --color-info-text: #1e40af;
+
+  /* Rating */
+  --color-rating: #f59e0b;
+
+  --radius-card: 0.75rem;
+  --radius-btn: 0.5rem;
+
+  --shadow-card: 0 1px 3px 0 rgba(0,0,0,0.1), 0 1px 2px -1px rgba(0,0,0,0.1);
+  --shadow-card-hover: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1);
+
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Skip-to-content link */
+.skip-to-content {
+  position: absolute;
+  left: -9999px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  z-index: 9999;
+}
+
+.skip-to-content:focus {
+  position: fixed;
+  top: 0.5rem;
+  left: 0.5rem;
+  width: auto;
+  height: auto;
+  padding: 0.75rem 1.5rem;
+  background: var(--color-brand-600);
+  color: white;
+  font-weight: 600;
+  font-size: 0.875rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* Bind @tailwindcss/typography (the `prose` class used by CMS pages, blog
+ * posts, and rich-text tabs) to this directory's theme tokens so headings,
+ * links, bold, and surfaces all follow the admin's design settings instead
+ * of the plugin's stock gray/blue palette. */
+.prose {
+  --tw-prose-body: var(--color-body-text);
+  --tw-prose-headings: var(--color-foreground);
+  --tw-prose-lead: var(--color-body-text);
+  --tw-prose-links: var(--color-brand-600);
+  --tw-prose-bold: var(--color-foreground);
+  --tw-prose-counters: var(--color-muted-text);
+  --tw-prose-bullets: var(--color-muted-text);
+  --tw-prose-hr: var(--color-border);
+  --tw-prose-quotes: var(--color-foreground);
+  --tw-prose-quote-borders: var(--color-border);
+  --tw-prose-captions: var(--color-muted-text);
+  --tw-prose-code: var(--color-foreground);
+  --tw-prose-pre-code: var(--color-foreground);
+  --tw-prose-pre-bg: var(--color-surface-muted);
+  --tw-prose-th-borders: var(--color-border);
+  --tw-prose-td-borders: var(--color-border);
+}
+
+/* Native <select> options inherit the document's text color, which makes
+ * them invisible (white-on-white) on dark themes. Force readable colors
+ * on the popup options regardless of the page's foreground color. */
+select option {
+  color: #111827;
+  background-color: #ffffff;
+}
