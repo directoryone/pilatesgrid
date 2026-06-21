@@ -13,9 +13,9 @@
     "update": "bash update.sh"
   },
   "dependencies": {
-    "@directoryone/app": "^1.0.817",
-    "@directoryone/core": "^1.0.817",
-    "@directoryone/ui": "^1.0.817",
+    "@directoryone/app": "^1.0.818",
+    "@directoryone/core": "^1.0.818",
+    "@directoryone/ui": "^1.0.818",
     "@opentelemetry/api": "^1.9.1",
     "@sentry/nextjs": "^10.56.0",
     "@supabase/ssr": "^0.6.1",
