@@ -12,6 +12,14 @@
  *   - If the file exists and looks customized (custom wrapper), leaves it
  *     alone — only the missing-file case is auto-healed
  *
+ * Also merges the platform's cron manifest into vercel.json. Cron registration
+ * has to happen HERE rather than in the prebuild (scripts/post-update.ts):
+ * Vercel reads vercel.json when the deployment is CREATED, before the build
+ * runs, and a prebuild's writes live in an ephemeral build checkout that is
+ * never committed. This script runs inside platform-update.yml, which commits
+ * and pushes whatever it changes, so a vercel.json edit here lands in the repo
+ * and takes effect on the next deployment.
+ *
  * The script is idempotent and safe to run on every update.
  */
 
@@ -26,7 +34,8 @@ import path from "path";
 interface RouteEntry {
   path: string;
   from: string;
-  exports: string[];
+  exports?: string[];
+  body?: string;
 }
 
 const REPO_ROOT = process.cwd();
@@ -35,6 +44,62 @@ const MANIFEST_PATH = path.join(
   "node_modules/@directoryone/app/src/route-manifest.json"
 );
 const APP_DIR = path.join(REPO_ROOT, "src/app");
+const CRON_MANIFEST_PATH = path.join(
+  REPO_ROOT,
+  "node_modules/@directoryone/app/dist/cron-manifest.json"
+);
+const VERCEL_JSON_PATH = path.join(REPO_ROOT, "vercel.json");
+
+/**
+ * Merge the platform's crons into vercel.json. Add-only: a cron the spawn
+ * already lists keeps its own schedule, and a spawn-specific cron that isn't
+ * in the manifest is never removed. Reading the list from the installed
+ * package (rather than hardcoding it) is what lets a FUTURE platform cron
+ * reach every spawn on its next update — but only once each spawn has this
+ * version of the script, because scripts/sync-routes.ts is copied in at spawn
+ * time and never refreshed. Spawns created before this existed need one direct
+ * push of this file first.
+ *
+ * Never throws: a missing manifest or an unparseable vercel.json must not fail
+ * the update run.
+ */
+function syncCrons(): void {
+  try {
+    if (!existsSync(CRON_MANIFEST_PATH)) {
+      console.warn(
+        `[sync-crons] manifest not found at ${CRON_MANIFEST_PATH} — skipping`
+      );
+      return;
+    }
+    const cronManifest: Array<{ path: string; schedule: string }> = JSON.parse(
+      readFileSync(CRON_MANIFEST_PATH, "utf-8")
+    );
+    const vercel: {
+      crons?: { path: string; schedule: string }[];
+      [k: string]: unknown;
+    } = existsSync(VERCEL_JSON_PATH)
+      ? JSON.parse(readFileSync(VERCEL_JSON_PATH, "utf-8"))
+      : { installCommand: "pnpm install --no-frozen-lockfile" };
+    const crons = Array.isArray(vercel.crons) ? vercel.crons : [];
+    const added: string[] = [];
+    for (const entry of cronManifest) {
+      if (!entry?.path || !entry?.schedule) continue;
+      if (crons.some((c) => c.path === entry.path)) continue;
+      crons.push({ path: entry.path, schedule: entry.schedule });
+      added.push(entry.path);
+    }
+    if (added.length === 0) return;
+    vercel.crons = crons;
+    writeFileSync(VERCEL_JSON_PATH, JSON.stringify(vercel, null, 2) + "\n");
+    console.log(`[sync-crons] registered ${added.length}: ${added.join(", ")}`);
+  } catch (err) {
+    console.warn("[sync-crons] could not sync vercel.json crons:", err);
+  }
+}
+
+// Before the route-manifest check below, which exits the process when the
+// manifest is missing.
+syncCrons();
 
 if (!existsSync(MANIFEST_PATH)) {
   console.warn(
@@ -48,7 +113,11 @@ const manifest: RouteEntry[] = JSON.parse(
 );
 
 function buildStubContent(entry: RouteEntry): string {
-  const exportList = entry.exports.join(", ");
+  // Custom wrappers ship their full content in `body`. If the file exists
+  // but drifted, looksLikeStandardStub() won't match a multi-line body, so
+  // customized copies are left alone — bodies are create/exact-match only.
+  if (entry.body) return entry.body;
+  const exportList = (entry.exports ?? []).join(", ");
   const needsInit =
     entry.path.endsWith("route.ts") ||
     entry.path === "auth/callback/page.tsx";
