@@ -4,6 +4,8 @@ import { withSentryConfig } from "@sentry/nextjs";
 const nextConfig: NextConfig = {
   serverExternalPackages: ["sanitize-html"],
   experimental: {
+    webpackBuildWorker: true,
+    webpackMemoryOptimizations: true,
     serverActions: {
       bodySizeLimit: "10mb",
     },
@@ -32,5 +34,7 @@ export default withSentryConfig(nextConfig, {
   authToken: process.env.SENTRY_AUTH_TOKEN,
   silent: !process.env.CI,
   widenClientFileUpload: true,
+  // Avoid allocating source maps when this deployment cannot upload them.
+  sourcemaps: { disable: !process.env.SENTRY_AUTH_TOKEN },
   disableLogger: true,
 });
