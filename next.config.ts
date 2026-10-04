@@ -9,6 +9,11 @@ const nextConfig: NextConfig = {
     serverActions: {
       bodySizeLimit: "10mb",
     },
+    // Size the static-generation worker pool against available memory rather
+    // than core count. Without it ~10% of production builds died with SIGKILL
+    // / "Out of Memory", and a dead build is silent: the repo takes the version
+    // bump, the build fails, and the site keeps serving the previous release.
+    memoryBasedWorkersCount: true,
   },
   async rewrites() {
     return [
